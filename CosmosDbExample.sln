@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosWebApi", "CosmosWebApi\CosmosWebApi.csproj", "{DAEA48EA-164C-4459-BA52-99AB29AA5801}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EF480397-A75B-44FB-8002-95BC7F8C2B7A}"
+	ProjectSection(SolutionItems) = preProject
+		MicrosoftDocsCosmosDotNetQuickStart.md = MicrosoftDocsCosmosDotNetQuickStart.md
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAEA48EA-164C-4459-BA52-99AB29AA5801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAEA48EA-164C-4459-BA52-99AB29AA5801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAEA48EA-164C-4459-BA52-99AB29AA5801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAEA48EA-164C-4459-BA52-99AB29AA5801}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2D1096F7-B500-4A76-80B3-5D6281CE1F8C}
+	EndGlobalSection
+EndGlobal
