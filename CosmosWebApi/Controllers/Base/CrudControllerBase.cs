@@ -37,9 +37,38 @@ namespace CosmosWebApi.Controllers
         }
 
         [HttpGet]
-        public virtual ActionResult<List<TDatabaseType>> Get()
+        public virtual ActionResult<IList<TDatabaseType>> Get(int? page = 0, int? pageSize = 10)
         {
-            return _service.Get();
+            var data = _service.Get(page: page.Value, pageSize: pageSize.Value);
+            var dtos = ConvertToDtoType(data.Results);
+            var retval = new PaginatedResults<TDtoType>();
+            retval.Results = dtos;
+            retval.Returned.Count = data.Returned.Count;
+            retval.Returned.FirstRecord = data.Returned.FirstRecord;
+            retval.Returned.LastRecord = data.Returned.LastRecord;
+            retval.Returned.Page = data.Returned.Page;
+            retval.Totals.Records = data.Totals.Records;
+            retval.Totals.Pages = data.Totals.Pages;
+            return Ok(retval);
+        }
+
+        private IList<TDtoType> ConvertToDtoType(IEnumerable<TDatabaseType> data)
+        {
+            var retval = new List<TDtoType>();
+            foreach (var d in data)
+            {
+                retval.Add(ConvertToDtoType(d));
+            }
+            return retval;
+        }
+        public virtual TDtoType ConvertToDtoType(TDatabaseType input)
+        {
+            return _mapper.Map<TDtoType>(input);
+        }
+
+        public virtual TDatabaseType ConvertToDatabaseType(TDtoType input)
+        {
+            return _mapper.Map<TDatabaseType>(input);
         }
 
         [HttpGet("{id:length(24)}")]
@@ -79,11 +108,6 @@ namespace CosmosWebApi.Controllers
             _service.Create(databaseInput);
             input.Id = databaseInput.Id;
             return input;
-        }
-
-        public virtual TDatabaseType ConvertToDatabaseType(TDtoType dtoObject)
-        {
-            return _mapper.Map<TDatabaseType>(dtoObject);
         }
 
         public virtual void ValidateModel(object input)

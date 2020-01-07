@@ -7,7 +7,7 @@ namespace CosmosWebApi.DataServices
         where TDataEntity : IDataEntity
     {
         TDataEntity Create(TDataEntity dataEntity);
-        List<TDataEntity> Get();
+        ICollectionStats<TDataEntity> Get(int page, int pageSize);
         TDataEntity Get(string id);
         void Remove(TDataEntity dataEntity);
         void Remove(string id);
