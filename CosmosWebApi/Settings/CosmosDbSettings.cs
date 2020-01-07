@@ -7,8 +7,11 @@ namespace CosmosWebApi.Settings
 {
     public class CosmosDbSettings
     {
-        public string MongoConnectionString { get; set; }
-        public bool MongoUseTsl12 { get; set; }
+        public bool IsCosmosDb { get; set; }
+        public string MongoHost { get; set; }
+        public int MongoPort { get; set; }
+        public string MongoUser { get; set; }
+        public string MongoPassword { get; set; }
         public string MongoDatabaseName { get; set; }
         public string BooksCollectionName { get; set; }
     }

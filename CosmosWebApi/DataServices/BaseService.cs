@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 
 namespace CosmosWebApi.DataServices
 {
@@ -51,9 +52,31 @@ namespace CosmosWebApi.DataServices
         public readonly IMongoCollection<TDataEntity> _entities;
         public BaseService(CosmosDbSettings settings, string collectionName)
         {
-            var client = new MongoClient(settings.MongoConnectionString);
-            var database = client.GetDatabase(settings.MongoDatabaseName);
-            _entities = database.GetCollection<TDataEntity>(collectionName);
+            if (settings.IsCosmosDb)
+            {
+                MongoClientSettings stg = new MongoClientSettings();
+                stg.Server = new MongoServerAddress(settings.MongoHost, settings.MongoPort);
+                stg.UseTls = true;
+                stg.SslSettings = new SslSettings();
+                stg.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
+
+                MongoIdentity identity = new MongoInternalIdentity(settings.MongoDatabaseName, settings.MongoUser);
+                MongoIdentityEvidence evidence = new PasswordEvidence(settings.MongoPassword);
+
+                stg.Credential = new MongoCredential("SCRAM-SHA-1", identity, evidence);
+
+                MongoClient client = new MongoClient(stg);
+                var database = client.GetDatabase(settings.MongoDatabaseName);
+                _entities = database.GetCollection<TDataEntity>(collectionName);
+            }
+            else
+            {
+                MongoClientSettings stg = new MongoClientSettings();
+                stg.Server = new MongoServerAddress(settings.MongoHost, settings.MongoPort);
+                var client = new MongoClient(stg);
+                var database = client.GetDatabase(settings.MongoDatabaseName);
+                _entities = database.GetCollection<TDataEntity>(collectionName);
+            }
         }
 
         public virtual ICollectionStats<TDataEntity> Get(int page, int pageSize)
